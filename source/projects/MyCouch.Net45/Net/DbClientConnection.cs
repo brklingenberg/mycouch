@@ -8,7 +8,7 @@ namespace MyCouch.Net
     {
         public string DbName { get; private set; }
 
-        public DbClientConnection(Uri dbUri, string dbName = null) : base(dbUri)
+        public DbClientConnection(Uri dbUri, string dbName = null, int timeout = 0) : base(dbUri, timeout)
         {
             if(DbName != null)
                 Ensure.That(dbName, "dbName").IsNotNullOrWhiteSpace();

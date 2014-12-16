@@ -19,9 +19,9 @@ namespace MyCouch
         public IEntities Entities { get; protected set; }
         public IViews Views { get; private set; }
 
-        public MyCouchClient(string dbUri, string dbName = null) : this(new Uri(dbUri), dbName) { }
+        public MyCouchClient(string dbUri, string dbName = null, int timeout = 0) : this(new Uri(dbUri), dbName, timeout) { }
 
-        public MyCouchClient(Uri dbUri, string dbName = null) : this(new DbClientConnection(dbUri, dbName)) { }
+        public MyCouchClient(Uri dbUri, string dbName = null, int timeout = 0) : this(new DbClientConnection(dbUri, dbName, timeout)) { }
 
         public MyCouchClient(IDbClientConnection connection, MyCouchClientBootstrapper bootstrapper = null)
         {

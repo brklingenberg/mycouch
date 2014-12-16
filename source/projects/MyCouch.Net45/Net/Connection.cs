@@ -18,11 +18,11 @@ namespace MyCouch.Net
             get { return HttpClient.BaseAddress; }
         }
 
-        protected Connection(Uri uri)
+        protected Connection(Uri uri, int timeout)
         {
             Ensure.That(uri, "uri").IsNotNull();
 
-            HttpClient = CreateHttpClient(uri);
+            HttpClient = CreateHttpClient(uri, timeout);
             IsDisposed = false;
         }
 
@@ -52,13 +52,18 @@ namespace MyCouch.Net
                 throw new ObjectDisposedException(GetType().Name);
         }
 
-        protected HttpClient CreateHttpClient(Uri uri)
+        protected HttpClient CreateHttpClient(Uri uri, int timeout)
         {
             var client = new HttpClient
             {
                 BaseAddress = new Uri(uri.GetAbsoluteUriExceptUserInfo().TrimEnd(new[] { '/' }))
             };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(HttpContentTypes.Json));
+
+            if (timeout != 0)
+            {
+                client.Timeout = TimeSpan.FromMilliseconds(timeout);
+            }
 
             var basicAuthString = uri.GetBasicAuthString();
             if (basicAuthString != null)

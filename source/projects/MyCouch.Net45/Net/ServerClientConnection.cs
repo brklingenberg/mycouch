@@ -5,7 +5,7 @@ namespace MyCouch.Net
 {
     public class ServerClientConnection : Connection, IServerClientConnection
     {
-        public ServerClientConnection(Uri serverUri) : base(serverUri)
+        public ServerClientConnection(Uri serverUri, int timeout = 0) : base(serverUri, timeout)
         {
             var dbName = Address.ExtractDbName();
 
